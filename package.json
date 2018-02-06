@@ -1,0 +1,33 @@
+{
+  "name": "picker-react",
+  "version": "0.0.0",
+  "description": "group multi and cascade pickers base on WEUI picker",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ruoru/picker-react.git"
+  },
+  "keywords": [
+    "react",
+    "picker",
+    "group",
+    "multi",
+    "cascade"
+  ],
+  "author": "ruoru",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ruoru/picker-react/issues"
+  },
+  "homepage": "https://github.com/ruoru/picker-react#readme",
+  "dependencies": {
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
+  },
+  "devDependencies": {
+    "webpack": "^3.10.0"
+  }
+}

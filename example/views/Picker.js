@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import './index.css';
 import cnCity from './cnCity';
 import {GroupPicker, CascadePicker} from '../../src';
 
@@ -91,20 +92,39 @@ class Picker extends Component {
 
     render() {
         return (
-            <div>
-
-                <input
-                    type="text"
-                    onClick={e=>{
-                        e.preventDefault()
-                        this.setState({group_show: true})
-                    }}
-                    placeholder="Pick a item"
-                    value={this.state.group_value}
-                    readOnly={true}
-                />
+            <div className="picker">
+                <ul>
+                    <li>
+                        <span>GroupPicker</span>
+                        <input
+                            type="text"
+                            onClick={e=>{
+                                e.preventDefault()
+                                this.setState({group_show: true})
+                            }}
+                            placeholder="Pick a item"
+                            value={this.state.group_value}
+                            readOnly={true}
+                        />
+                    </li>
+                    <li>
+                        <span>CascadePicker</span>
+                        <input type="text"
+                            value={this.state.cascade_value}
+                            onClick={ e=> {
+                                e.preventDefault();
+                                this.setState({cascade_show: true})
+                            }}
+                            placeholder="Chose Your cascade value"
+                            readOnly={true}
+                        />
+                    </li>
+                </ul>
 
                 <GroupPicker
+                    data={this.state.group_data}
+                    datamap={{text: 'label'}}
+                    show={this.state.group_show}
                     onOk={selected=>{
                         let value = ''
                         selected.forEach( (s, i)=> {
@@ -115,30 +135,15 @@ class Picker extends Component {
                             group_show: false
                         })
                     }}
-                    data={this.state.group_data}
-                    datamap={{text: 'label'}}
-                    show={this.state.group_show}
                     onCancel={e=>this.setState({group_show: false})}
-                />
-
-
-                <input type="text"
-                    value={this.state.cascade_value}
-                    onClick={ e=> {
-                        e.preventDefault();
-                        this.setState({cascade_show: true})
-                    }}
-                    placeholder="Chose Your cascade value"
-                    readOnly={true}
                 />
 
                 <CascadePicker
                     data={cnCity}
                     datamap={{text: 'name', value: 'code', sub: 'sub'}}
-                    onCancel={e=>this.setState({cascade_show: false})}
+                    show={this.state.cascade_show}
                     onOk={selected => {
                         let value = cnCity;
-
                         selected.forEach( (s, i)=> {
                             if(i === selected.length - 1) {
                                 value = value[s].code
@@ -151,9 +156,8 @@ class Picker extends Component {
                             cascade_show: false
                         })
                     }}
-                    show={this.state.cascade_show}
+                    onCancel={e=>this.setState({cascade_show: false})}
                 />
-
             </div>
         );
     }

@@ -1,47 +1,45 @@
 # picker-react
-[![jaywcjlove/sb](https://jaywcjlove.github.io/sb/lang/chinese.svg)](README-zh_CN.md)
+[![jaywcjlove/sb](https://jaywcjlove.github.io/sb/lang/english.svg)](README.md)
 
-group, multi and cascade pickers base on WEUI picker.
+基于WEUI实现的组选择器，级联选择器，多选级联选择器
 
-[简体中文文档](README-zh_CN.md)
+[README in English](README.md)
 
-## Support environment
+## 支持环境
 
-* Modern browser and IE9+.
+* 现代浏览器和 IE9 及以上。
 
-## Applicable scene
+## 适用场景
 
-1. Mobile phone, the screen size in the mainstream (320x480 to 414x732);
-2. Whether with bottom navigation or not;
-3. Horizontal arrangement, it is recommended not to exceed the depth of four-level structure;
-4. Requirements of the word length in a certain range, too long can not be displayed completely;
-5. Interface data format needs to be strictly in accordance with the provisions of the format;
+1. 手机端，屏幕尺寸在主流范围内（320x480至414x732）；
+2. 无论是否带有底部导航；
+3. 横向排布，建议深度不要超过四级结构；
+4. 要求字数长度在一定范围内，太长则无法显示完全；
+5. 接口中data格式需要严格按照格式规定；
 
-## Remaining problem
+## 遗留问题
 
-1. if the first one is disable, if chose another disable item in same column, it will jump to the first one disable;
+1. 每次点击值的选项onValueChange都会执行两次；
 
-## Interface design
+## 接口设计
 
-### GroupPicker & CascadePicker
+### GroupPicker
 
-GroupPicker & CascadePicker has the same interface, but the `data` structure is different.
-
-| property name         | type       | description                               |
+| 属性名                 | 类型        | 说明                                      |
 | --------------------- | ---------- | ----------------------------------------- |
-| data *                | Array      | The data source of the Array selector, the default is [].   |
-| datamap               | Object     | The alias of the data source key. eg: {text: 'text', value: 'value', disable: 'disable', sub: 'sub'}         |
-| defaultSelectIndexs   | Array      | The default selection index of data.      |
-| selectIndexs          | Array      | Forces the selection of data.       |
-| onChange *            | Function   | Callback method, each time you change the selected value will run of the method.  (selectIndexs, index, columnIndex) => {}  |
-| show *                | Bool       | Show or Hide the component.         |
-| transparent           | Bool       | Is the gray background transparent or not.   |  
-| lang                  | Object     | Text of Component `Cancel button` and `OK button`. { cancelBtn: 'Cancel', okBtn: 'Ok' }  |
-| onCancel *            | Function   | Callback method, click the `Cancel button` will run the method.   |
-| onOk *                | Function   | Callback method, click the `OK button` will run the method.    (selectIndexs) => {}|
-| onMaskClick           | Function   | Callback method, click on the gray background will run the method.   |
+| data *                | Array      | 选择器的数据来源，默认值为[]。                 |
+| datamap               | Object     | 数据来源键值的别名。                          |
+| defaultSelectIndexs   | Array      | 默认选择下标。                               |
+| selectIndexs          | Array      | 强制选中下标。                               |
+| onChange *            | Function   | 回调方法，每次更改选中的值改变后会执行该方法。    |
+| show *                | Bool       | 是否显示该组件。                             |
+| transparent           | Bool       | 灰色背景是否是否透明。                        |  
+| lang                  | Object     | 组件取消按钮和确定按钮的显示内容。              |
+| onCancel *            | Function   | 回调方法，点击取消按钮会执行该方法。            |
+| onOk *                | Function   | 回调方法，点击确认按钮后会执行该方法。           |
+| onMaskClick           | Function   | 回调方法，点击灰色背景后会执行该方法。           |
 
-Here to emphasize, GroupPicker data format is:
+这里强调一下，data的数据格式为：
 ```js
 [
     [
@@ -91,7 +89,23 @@ Here to emphasize, GroupPicker data format is:
 ]
 ```
 
-CascadePicker data format is:
+### CascadePicker
+
+| 属性名                 | 类型        | 说明                                      |
+| --------------------- | ---------- | ----------------------------------------- |
+| data *                | Array      | 选择器的数据来源，默认值为[]。                 |
+| datamap               | Object     | 数据来源键值的别名。{text: 'text', value: 'value', disable: 'disable', sub: 'sub'}                          |
+| defaultSelectIndexs   | Array      | 默认选择下标。                               |
+| selectIndexs          | Array      | 强制选中下标。                               |
+| onChange *            | Function   | 回调方法，每次更改选中的值改变后会执行该方法。 (selectIndexs, index, columnIndex) => {}    |
+| show *                | Bool       | 是否显示该组件。                             |
+| transparent           | Bool       | 灰色背景是否是否透明。                        |  
+| lang                  | Object     | 组件取消按钮和确定按钮的显示内容。{ cancelBtn: '取消', okBtn: '确认' } |
+| onCancel *            | Function   | 回调方法，点击取消按钮会执行该方法。            |
+| onOk *                | Function   | 回调方法，点击确认按钮后会执行该方法。 (selectIndexs) => {}          |
+| onMaskClick           | Function   | 回调方法，点击灰色背景后会执行该方法。           |
+
+这里强调一下，data的数据格式为：
 ```js
 [
   {
@@ -176,13 +190,13 @@ CascadePicker data format is:
 ]
 ```
 
-## Install
+## 安装
 
 ```bash
 npm install picker-react --save
 ```
 
-## Example
+## 示例
 [picker demo.js](./example/views/Picker.js)
 ```jsx
 import React, {Component} from 'react';
@@ -352,7 +366,7 @@ class Picker extends Component {
 export default Picker;
 ```
 
-## Local development
+## 本地开发
 
 ```bash
 $ git clone https://github.com/ruoru/picker-react.git

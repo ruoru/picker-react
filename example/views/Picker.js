@@ -83,7 +83,7 @@ class Picker extends Component {
                     },
                 ],
             ],
-    
+
             cascade_show: false,
             cascade_value: '',
         };

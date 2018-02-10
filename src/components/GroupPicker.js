@@ -73,7 +73,7 @@ GroupPicker.propTypes = {
     data: PropTypes.array.isRequired,
     datamap: PropTypes.object,
     defaultSelectIndexs: PropTypes.array,
-    selectIndexs: PropTypes.array, //daishixian
+    selectIndexs: PropTypes.array,
     onChange: PropTypes.func,
     show: PropTypes.bool,
     transparent: PropTypes.bool,

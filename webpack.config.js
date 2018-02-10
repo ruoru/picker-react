@@ -8,7 +8,7 @@ module.exports = {
         app: './example/app.js',
     },
     output: {
-        path: join(__dirname, './dist'),
+        path: join(__dirname, './docs'),
         filename: `./[name].js`,
     },
     resolve: {
@@ -103,7 +103,7 @@ module.exports = {
         inline: true,
         hot: true,
         publicPath: '/',
-        contentBase: join(__dirname, './dist'),
+        contentBase: join(__dirname, './docs'),
         compress: true,    //启用所有服务的gzip压缩
         host: '0.0.0.0',
         port: 8001,

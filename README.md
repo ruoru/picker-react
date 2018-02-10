@@ -5,6 +5,8 @@ group, multi and cascade pickers base on WEUI picker.
 
 [简体中文文档](README-zh_CN.md)
 
+[Demo Link](https://ruoru.github.io/picker-react/)
+
 ## Support environment
 
 * Modern browser and IE9+.

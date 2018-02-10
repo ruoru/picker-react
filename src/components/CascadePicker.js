@@ -21,12 +21,16 @@ class CascadePicker extends Component {
     }
 
     componentWillReceiveProps(nextProps){
-        if (!equal(this.props.data, nextProps.data)) {
-            const { columns, newSelectIndexs } = this.parseData(nextProps.selectIndexs || nextProps.defaultSelectIndexs, nextProps);
+        const {data, defaultSelectIndexs, selectIndexs} = nextProps;
+        if (!equal(this.props.data, data)) {
+            const { columns, newSelectIndexs } = this.parseData(selectIndexs || defaultSelectIndexs, nextProps);
             this.setState({
                 columns,
                 selectIndexs: newSelectIndexs,
             });
+        }
+        if (Array.isArray(selectIndexs) && selectIndexs.length > 0) {
+            this.setState({selectIndexs});
         }
     }
 
@@ -47,12 +51,15 @@ class CascadePicker extends Component {
     }
 
     handleChange(item, index, columnIndex){
+        const {onChange} = this.props, propsSelectIndexs = this.props.selectIndexs;
         let {selectIndexs} = this.state;
-        const {onChange} = this.props;
 
-        selectIndexs[columnIndex] = index;
+        if (Array.isArray(propsSelectIndexs) && propsSelectIndexs.length > 0) {
+            selectIndexs = this.props.selectIndexs;
+        } else {
+            selectIndexs[columnIndex] = index;
+        }
         const { columns, newSelectIndexs } = this.parseData(selectIndexs);
-
         this.setState({ columns, selectIndexs: newSelectIndexs }, ()=>{
             if (onChange) onChange(selectIndexs, index, columnIndex);
         });

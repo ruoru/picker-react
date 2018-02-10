@@ -8,7 +8,7 @@ import equal from 'fast-deep-equal';
 class GroupPicker extends Component {
     constructor(props){
         super(props);
-        const { defaultSelectIndexs, selectIndexs, data } = props;
+        const {data, defaultSelectIndexs, selectIndexs} = props;
 
         this.state = {
             selectIndexs: selectIndexs || defaultSelectIndexs || Array(data.length).fill(-1),
@@ -19,18 +19,28 @@ class GroupPicker extends Component {
 
     componentWillReceiveProps(nextProps){
         //there may think about props.data change
-        if (!equal(this.props.data, nextProps.data)) {
+        const {data, defaultSelectIndexs, selectIndexs} = nextProps;
+        if (Array.isArray(selectIndexs) && selectIndexs.length > 0) {
+            this.setState({selectIndexs});
+            return;
+        }
+        if (!equal(this.props.data, data)) {
             this.setState({
-                selectIndexs: nextProps.selectIndexs || nextProps.defaultSelectIndexs || Array(data.length).fill(-1),
+                selectIndexs: selectIndexs || defaultSelectIndexs || Array(data.length).fill(-1),
             });
         }
     }
 
     handleChange(item, index, columnIndex){
-        const {onChange} = this.props;
+        const {onChange} = this.props, propsSelectIndexs = this.props.selectIndexs;
         let {selectIndexs} = this.state;
 
-        selectIndexs[columnIndex] = index;
+        if (Array.isArray(propsSelectIndexs) && propsSelectIndexs.length > 0) {
+            selectIndexs = this.props.selectIndexs;
+        } else {
+            selectIndexs[columnIndex] = index;
+        }
+
         this.setState({ selectIndexs }, ()=>{
             if (onChange) onChange(selectIndexs, index, columnIndex);
         });

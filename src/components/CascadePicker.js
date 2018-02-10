@@ -1,28 +1,28 @@
-import React from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import GroupPicker from './GroupPicker';
+import PickerMask from './PickerMask';
+import PickerColumn from './PickerColumn';
+import classNames from '../utils/classnames';
 import equal from 'fast-deep-equal';
 
-
-class CascadePicker extends React.Component {
+class CascadePicker extends Component {
 
     constructor(props){
         super(props);
-        const { data, selectIndexs, datamap } = this.props;
-        const { columns, newSelectIndexs } = this.parseData(selectIndexs);
+        const { data, datamap, defaultSelectIndexs, selectIndexs } = this.props;
+        const { columns, newSelectIndexs } = this.parseData(selectIndexs || defaultSelectIndexs);
         this.state = {
             columns,
             selectIndexs: newSelectIndexs,
         };
 
         this.parseData = this.parseData.bind(this);
-        this.updateColumn = this.updateColumn.bind(this);
         this.handleChange = this.handleChange.bind(this);
     }
 
     componentWillReceiveProps(nextProps){
         if (!equal(this.props.data, nextProps.data)) {
-            const { columns, newSelectIndexs } = this.parseData(nextProps.selectIndexs, nextProps);
+            const { columns, newSelectIndexs } = this.parseData(nextProps.selectIndexs || nextProps.defaultSelectIndexs, nextProps);
             this.setState({
                 columns,
                 selectIndexs: newSelectIndexs,
@@ -46,61 +46,55 @@ class CascadePicker extends React.Component {
         return { columns, newSelectIndexs };
     }
 
-    updateDataBySelected(selectIndexs, cb){
+    handleChange(item, index, columnIndex){
+        let {selectIndexs} = this.state;
+        const {onChange} = this.props;
+
+        selectIndexs[columnIndex] = index;
         const { columns, newSelectIndexs } = this.parseData(selectIndexs);
 
-        this.setState({
-            columns,
-            selectIndexs: newSelectIndexs
-        }, ()=>cb());
-    }
-
-    updateColumn(item, i, groupIndex, selectIndexs, picker){
-        this.updateDataBySelected(selectIndexs, ()=>{
-            if (this.props.onChange) this.props.onChange(selectIndexs);
-            picker.setState({
-                selectIndexs: this.state.selectIndexs
-            });
+        this.setState({ columns, selectIndexs: newSelectIndexs }, ()=>{
+            if (onChange) onChange(selectIndexs, index, columnIndex);
         });
     }
 
-    handleChange(selectIndexs){
-        if (this.props.onOk) this.props.onOk(this.state.selectIndexs);
-    }
-
     render(){
-        const { className, show, datamap, onOk, onCancel, lang } = this.props;
-        const { selectIndexs, columns } = this.state;
-        return (
-            <GroupPicker
+        const { data, datamap, onChange, show, transparent, lang, onCancel, onOk, onMaskClick, } = this.props;
+        const { columns, selectIndexs } = this.state;
+
+        return show && (
+            <PickerMask
                 show={show}
-                className={className}
-                onChange={this.updateColumn}
-                onOk={() => {if (onOk) onOk(selectIndexs);}}
-                defaultSelectIndexs={selectIndexs}
-                data={columns}
-                datamap={datamap}
-                onCancel={onCancel}
+                transparent={transparent}
                 lang={lang}
+                onCancel={e => {if(onCancel) onCancel();}}
+                onOk={e => {if (onOk) onOk(selectIndexs);}}
+                onMaskClick={onMaskClick}
             >
-                <div>xzxzx</div>
-            </GroupPicker>
+                {
+                    columns.map( (column, i) => {
+                        return <PickerColumn key={i} data={column} datamap={datamap} onChange={this.handleChange} columnIndex={i} defaultIndex={selectIndexs[i]} />;
+                    })
+                }
+            </PickerMask>
 
         );
     }
 }
 
+
 CascadePicker.propTypes = {
-    className: PropTypes.string,
     data: PropTypes.array.isRequired,
     datamap: PropTypes.object,
     defaultSelectIndexs: PropTypes.array,
     selectIndexs: PropTypes.array,
     onChange: PropTypes.func,
-    onOk: PropTypes.func,
-    onCancel: PropTypes.func,
     show: PropTypes.bool,
+    transparent: PropTypes.bool,
     lang: PropTypes.object,
+    onCancel: PropTypes.func,
+    onOk: PropTypes.func,
+    onMaskClick: PropTypes.func,
 }
 
 CascadePicker.defaultProps = {
@@ -111,8 +105,6 @@ CascadePicker.defaultProps = {
         disable: 'disable',
         sub: 'sub',
     },
-    show: false,
-    lang: { leftBtn: '取消', rightBtn: '确定' }
 }
 
 export default CascadePicker;

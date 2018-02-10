@@ -1,6 +1,8 @@
 # picker-react
 [![jaywcjlove/sb](https://jaywcjlove.github.io/sb/lang/chinese.svg)](README-zh_CN.md)
 
+[![npm package](https://img.shields.io/npm/v/picker-react.svg?style=flat-square)](https://www.npmjs.org/package/picker-react)[![NPM downloads](http://img.shields.io/npm/dm/picker-react.svg?style=flat-square)](https://npmjs.org/package/picker-react)
+
 group, multi and cascade pickers base on WEUI picker.
 
 [简体中文文档](README-zh_CN.md)

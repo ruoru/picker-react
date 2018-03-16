@@ -50,21 +50,6 @@ module.exports = {
                     },
                 ]
             },
-            {
-                test: /\.(jpg|png|jpeg|gif|svg)$/i,
-                use: [
-                    {
-                        loader: 'url-loader',
-                        query: {
-                            limit: 100000,    //设定最小值，小于最小值可图片被打包成dataURL base64编码
-                            name: 'assets/[name].[ext]'
-                        },
-                    },
-                    {
-                        loader: 'image-webpack-loader',
-                    },
-                ],
-            },
         ],
     },
     plugins: [

@@ -2,7 +2,7 @@
 
 基于 WEUI 实现的组选择器，级联选择器。
 
-[![ruoru/flags/uk](http://p42sgsc8q.bkt.clouddn.com/country-flags/svg/uk.svg) README in English](README.md)
+[<img src="http://p42sgsc8q.bkt.clouddn.com/country-flags/svg/uk.svg" height="20" /> README in English](README.md)
 
 ## 例子链接
 

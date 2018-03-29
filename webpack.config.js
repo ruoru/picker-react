@@ -19,7 +19,7 @@ module.exports = {
         'react-dom': 'ReactDOM',
     },
     module: {
-        loaders: [
+        rules: [
             //处理js文件
             {
                 test: /\.(js)$/,
@@ -83,7 +83,7 @@ module.exports = {
         contentBase: join(__dirname, './docs'),
         compress: true,    //启用所有服务的gzip压缩
         host: '0.0.0.0',
-        port: 8001,
+        port: 9001,
         historyApiFallback: {
             index: '/index.html',
         },

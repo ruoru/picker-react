@@ -8,7 +8,7 @@ class MultiCascadePicker extends React.Component {
 
     constructor(props){
         super(props);
-        const { data, selectIndexs, datamap } = this.props;
+        const { data, selectIndexs, dataKeys } = this.props;
         const { columns, newSelectIndexs } = this.parseData(selectIndexs);
         this.state = {
             columns,
@@ -31,7 +31,7 @@ class MultiCascadePicker extends React.Component {
     }
 
     parseData(selectIndexs = [], props){
-        const { data, datamap } = props || this.props;
+        const { data, dataKeys } = props || this.props;
         let i = 0, dataItem = JSON.parse(JSON.stringify(data)), columns = [], newSelectIndexs = [];
 
         do {
@@ -39,7 +39,7 @@ class MultiCascadePicker extends React.Component {
             const selectIndex = dataItem[ selectIndexs[ i ] ] ? selectIndexs[ i ] : 0;
             newSelectIndexs.push(selectIndex);
 
-            dataItem = Array.isArray(dataItem) && dataItem[selectIndex] && dataItem[selectIndex][datamap.sub];
+            dataItem = Array.isArray(dataItem) && dataItem[selectIndex] && dataItem[selectIndex][dataKeys.sub];
             i++;
         } while (dataItem);
 
@@ -69,7 +69,7 @@ class MultiCascadePicker extends React.Component {
     }
 
     render(){
-        const { className, show, datamap, onOk, onCancel, lang } = this.props;
+        const { className, show, dataKeys, onOk, onCancel, lang } = this.props;
         const { selectIndexs, columns } = this.state;
         return (
             <GroupPicker
@@ -79,7 +79,7 @@ class MultiCascadePicker extends React.Component {
                 onOk={() => {if (onOk) onOk(selectIndexs);}}
                 defaultSelectIndexs={selectIndexs}
                 data={columns}
-                datamap={datamap}
+                dataKeys={dataKeys}
                 onCancel={onCancel}
                 lang={lang}
             >
@@ -93,7 +93,7 @@ class MultiCascadePicker extends React.Component {
 MultiCascadePicker.propTypes = {
     className: PropTypes.string,
     data: PropTypes.array.isRequired,
-    datamap: PropTypes.object,
+    dataKeys: PropTypes.object,
     defaultSelectIndexs: PropTypes.array,
     selectIndexs: PropTypes.array,
     onChange: PropTypes.func,
@@ -105,7 +105,7 @@ MultiCascadePicker.propTypes = {
 
 MultiCascadePicker.defaultProps = {
     data: [],
-    datamap: {
+    dataKeys: {
         text: 'text',
         value: 'value',
         disable: 'disable',

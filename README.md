@@ -37,19 +37,19 @@ https://ruoru.github.io/picker-react
 
 GroupPicker & CascadePicker has the same interface, but the `data` structure is different.
 
-| property name       | type     | description                                                                                                               |
-| ------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------- |
-| data \*             | Array    | The data source of the Array selector, the default is [].                                                                 |
-| datamap             | Object   | The alias of the data source key. eg: {text: 'text', value: 'value', disable: 'disable', sub: 'sub'}                      |
-| defaultSelectIndexs | Array    | The default selection index of data.                                                                                      |
-| selectIndexs        | Array    | Forces the selection of data.                                                                                             |
-| onChange \*         | Function | Callback method, each time you change the selected value will run of the method. (selectIndexs, index, columnIndex) => {} |
-| show \*             | Bool     | Show or Hide the component.                                                                                               |
-| transparent         | Bool     | Is the gray background transparent or not.                                                                                |
-| lang                | Object   | Text of Component `Cancel button` and `OK button`. { cancelBtn: 'Cancel', okBtn: 'Ok' }                                   |
-| onCancel \*         | Function | Callback method, click the `Cancel button` will run the method.                                                           |
-| onOk \*             | Function | Callback method, click the `OK button` will run the method. (selectIndexs) => {}                                          |
-| onMaskClick         | Function | Callback method, click on the gray background will run the method.                                                        |
+| property name          | description                                                                         | type                                              | default                                                           |
+| ---------------------- | ----------------------------------------------------------------------------------- | ------------------------------------------------- | ----------------------------------------------------------------- |
+| data \*                | The data source of the Array selector.                                              | Array                                             | []                                                                |
+| dataKeys                | The alias of the data source key. eg:                                               | Object                                            | {text: 'text', value: 'value', disable: 'disable', sub: 'sub'}    |
+| defaultSelectIndexs    | The default selection index of data.                                                | Array                                             | -                                                                 |
+| selectIndexs           | Forces the selection of data.                                                       | Array                                             | -                                                                 |
+| onChange \*            | Callback method, each time you change the selected value will run of the method.    | Function (selectIndexs, rowIndex, columnIndex)    | -                                                                 |
+| show \*                | Show or Hide the component.                                                         | Bool                                              | Array                                                             |
+| transparent            | Is the gray background transparent or not.                                          | Bool                                              | -                                                                 |
+| lang                   | Text of Component `Cancel button` and `OK button`.                                  | Object                                            | { cancelBtn: 'Cancel', okBtn: 'Ok' }                              |
+| onCancel \*            | Callback method, click the `Cancel button` will run the method.                     | Function                                          | -                                                                 |
+| onOk \*                | Callback method, click the `OK button` will run the method.                         | Function (selectIndexs)                           | -                                                                 |
+| onMaskClick            | Callback method, click on the gray background will run the method.                  | Function                                          | -                                                                 |
 
 Here the `data` to emphasize, GroupPicker data format is:
 
@@ -320,7 +320,7 @@ class Picker extends Component {
 
         <GroupPicker
           data={this.state.group_data}
-          datamap={{ text: "label" }}
+          dataKeys={{ text: "label" }}
           show={this.state.group_show}
           onOk={selected => {
             let value = "";
@@ -337,7 +337,7 @@ class Picker extends Component {
 
         <CascadePicker
           data={cnCity}
-          datamap={{ text: "name", value: "code", sub: "sub" }}
+          dataKeys={{ text: "name", value: "code", sub: "sub" }}
           show={this.state.cascade_show}
           onOk={selected => {
             let value = cnCity;

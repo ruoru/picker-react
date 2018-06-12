@@ -34,7 +34,7 @@ GroupPicker 和 CascadePicker 有着同样的接口，但是他们两个的 data
 | 属性名              | 类型     | 说明                                           |
 | ------------------- | -------- | ---------------------------------------------- |
 | data \*             | Array    | 选择器的数据来源，默认值为[]。                 |
-| datamap             | Object   | 数据来源键值的别名。                           |
+| dataKeys             | Object   | 数据来源键值的别名。                           |
 | defaultSelectIndexs | Array    | 默认选择下标。                                 |
 | selectIndexs        | Array    | 强制选中下标。                                 |
 | onChange \*         | Function | 回调方法，每次更改选中的值改变后会执行该方法。 |
@@ -314,7 +314,7 @@ class Picker extends Component {
 
         <GroupPicker
           data={this.state.group_data}
-          datamap={{ text: "label" }}
+          dataKeys={{ text: "label" }}
           show={this.state.group_show}
           onOk={selected => {
             let value = "";
@@ -331,7 +331,7 @@ class Picker extends Component {
 
         <CascadePicker
           data={cnCity}
-          datamap={{ text: "name", value: "code", sub: "sub" }}
+          dataKeys={{ text: "name", value: "code", sub: "sub" }}
           show={this.state.cascade_show}
           onOk={selected => {
             let value = cnCity;

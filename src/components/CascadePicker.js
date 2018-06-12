@@ -9,7 +9,7 @@ class CascadePicker extends Component {
 
     constructor(props){
         super(props);
-        const { data, datamap, defaultSelectIndexs, selectIndexs } = this.props;
+        const { data, dataKeys, defaultSelectIndexs, selectIndexs } = this.props;
         const { columns, newSelectIndexs } = this.parseData(selectIndexs || defaultSelectIndexs);
         this.state = {
             columns,
@@ -35,7 +35,7 @@ class CascadePicker extends Component {
     }
 
     parseData(selectIndexs = [], props){
-        const { data, datamap } = props || this.props;
+        const { data, dataKeys } = props || this.props;
         let i = 0, dataItem = JSON.parse(JSON.stringify(data)), columns = [], newSelectIndexs = [];
 
         do {
@@ -43,30 +43,30 @@ class CascadePicker extends Component {
             const selectIndex = dataItem[ selectIndexs[ i ] ] ? selectIndexs[ i ] : 0;
             newSelectIndexs.push(selectIndex);
 
-            dataItem = Array.isArray(dataItem) && dataItem[selectIndex] && dataItem[selectIndex][datamap.sub];
+            dataItem = Array.isArray(dataItem) && dataItem[selectIndex] && dataItem[selectIndex][dataKeys.sub];
             i++;
         } while (dataItem);
 
         return { columns, newSelectIndexs };
     }
 
-    handleChange(item, index, columnIndex){
+    handleChange(item, rowIndex, columnIndex){
         const {onChange} = this.props, propsSelectIndexs = this.props.selectIndexs;
         let {selectIndexs} = this.state;
 
         if (Array.isArray(propsSelectIndexs) && propsSelectIndexs.length > 0) {
             selectIndexs = this.props.selectIndexs;
         } else {
-            selectIndexs[columnIndex] = index;
+            selectIndexs[columnIndex] = rowIndex;
         }
         const { columns, newSelectIndexs } = this.parseData(selectIndexs);
         this.setState({ columns, selectIndexs: newSelectIndexs }, ()=>{
-            if (onChange) onChange(selectIndexs, index, columnIndex);
+            if (onChange) onChange(selectIndexs, rowIndex, columnIndex);
         });
     }
 
     render(){
-        const { data, datamap, onChange, show, transparent, lang, onCancel, onOk, onMaskClick, } = this.props;
+        const { data, dataKeys, onChange, show, transparent, lang, onCancel, onOk, onMaskClick, } = this.props;
         const { columns, selectIndexs } = this.state;
 
         return show && (
@@ -80,7 +80,7 @@ class CascadePicker extends Component {
             >
                 {
                     columns.map( (column, i) => {
-                        return <PickerColumn key={i} data={column} datamap={datamap} onChange={this.handleChange} columnIndex={i} defaultIndex={selectIndexs[i]} />;
+                        return <PickerColumn key={i} data={column} dataKeys={dataKeys} onChange={this.handleChange} columnIndex={i} defaultIndex={selectIndexs[i]} />;
                     })
                 }
             </PickerMask>
@@ -92,7 +92,7 @@ class CascadePicker extends Component {
 
 CascadePicker.propTypes = {
     data: PropTypes.array.isRequired,
-    datamap: PropTypes.object,
+    dataKeys: PropTypes.object,
     defaultSelectIndexs: PropTypes.array,
     selectIndexs: PropTypes.array,
     onChange: PropTypes.func,
@@ -106,7 +106,7 @@ CascadePicker.propTypes = {
 
 CascadePicker.defaultProps = {
     data: [],
-    datamap: {
+    dataKeys: {
         text: 'text',
         value: 'value',
         disable: 'disable',

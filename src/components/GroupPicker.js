@@ -31,23 +31,23 @@ class GroupPicker extends Component {
         }
     }
 
-    handleChange(item, index, columnIndex){
+    handleChange(item, rowIndex, columnIndex){
         const {onChange} = this.props, propsSelectIndexs = this.props.selectIndexs;
         let {selectIndexs} = this.state;
 
         if (Array.isArray(propsSelectIndexs) && propsSelectIndexs.length > 0) {
             selectIndexs = this.props.selectIndexs;
         } else {
-            selectIndexs[columnIndex] = index;
+            selectIndexs[columnIndex] = rowIndex;
         }
 
         this.setState({ selectIndexs }, ()=>{
-            if (onChange) onChange(selectIndexs, index, columnIndex);
+            if (onChange) onChange(selectIndexs, rowIndex, columnIndex);
         });
     }
 
     render(){
-        const { data, datamap, onChange, show, transparent, lang, onCancel, onOk, onMaskClick, } = this.props;
+        const { data, dataKeys, onChange, show, transparent, lang, onCancel, onOk, onMaskClick, } = this.props;
         const { selectIndexs } = this.state;
 
         return show && (
@@ -61,7 +61,7 @@ class GroupPicker extends Component {
             >
                 {
                     data.map( (column, i) => {
-                        return <PickerColumn key={i} data={column} datamap={datamap} onChange={this.handleChange} columnIndex={i} defaultIndex={selectIndexs[i]} />;
+                        return <PickerColumn key={i} data={column} dataKeys={dataKeys} onChange={this.handleChange} columnIndex={i} defaultIndex={selectIndexs[i]} />;
                     })
                 }
             </PickerMask>
@@ -71,7 +71,7 @@ class GroupPicker extends Component {
 
 GroupPicker.propTypes = {
     data: PropTypes.array.isRequired,
-    datamap: PropTypes.object,
+    dataKeys: PropTypes.object,
     defaultSelectIndexs: PropTypes.array,
     selectIndexs: PropTypes.array,
     onChange: PropTypes.func,

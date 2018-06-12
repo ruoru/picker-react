@@ -16,12 +16,12 @@ class PickerColumn extends Component {
             ogTranslate: 0,
             touchId: undefined,
             totalHeight: 0,
-            datamap: Object.assign({
+            dataKeys: Object.assign({
                 text: 'text',
                 value: 'value',
                 disable: 'disable',
                 sub: 'sub',
-            }, props.datamap),
+            }, props.dataKeys),
         };
 
         this.handleTouchStart = this.handleTouchStart.bind(this);
@@ -55,11 +55,11 @@ class PickerColumn extends Component {
 
     adjustSelectedIndex() {
         const { data, itemHeight, indicatorTop, indicatorHeight } = this.props;
-        const { translate, datamap } = this.state;
+        const { translate, dataKeys } = this.state;
         let selectedIndex = 0;
 
         for (let i = 0; i < data.length; i++) {
-            if (!data[i][datamap.disable] && (itemHeight * i + translate) >= indicatorTop
+            if (!data[i][dataKeys.disable] && (itemHeight * i + translate) >= indicatorTop
                 && ((i + 1) * itemHeight + translate) <= indicatorTop + indicatorHeight){
                 selectedIndex = i;
                 break;
@@ -147,7 +147,7 @@ class PickerColumn extends Component {
 
     render() {
         const { data, className, height, itemHeight, indicatorTop, indicatorHeight, onChange, aniamtion, columnIndex, defaultIndex } = this.props;
-        const { datamap, translate, animating } = this.state;
+        const { dataKeys, translate, animating } = this.state;
 
         const styles = {
             'transform': `translate(0, ${translate}px)`,
@@ -168,9 +168,9 @@ class PickerColumn extends Component {
                     {
                         data.map( (item, j) => {
                             const itemCls = classNames('weui-picker__item', {
-                                'weui-picker__item_disabled': item[datamap.disable]
+                                'weui-picker__item_disabled': item[dataKeys.disable]
                             });
-                            return <div key={j} value={ item[datamap.value] } className={itemCls}>{ item[datamap.text] }</div>;
+                            return <div key={j} value={ item[dataKeys.value] } className={itemCls}>{ item[dataKeys.text] }</div>;
                         })
                     }
                 </div>
@@ -181,7 +181,7 @@ class PickerColumn extends Component {
 
 PickerColumn.propTypes = {
     data: PropTypes.array.isRequired,
-    datamap: PropTypes.object,
+    dataKeys: PropTypes.object,
     className: PropTypes.string,
     height: PropTypes.number,
     itemHeight: PropTypes.number,
@@ -195,7 +195,7 @@ PickerColumn.propTypes = {
 
 PickerColumn.defaultProps = {
     data: [],
-    datamap: {},
+    dataKeys: {},
     height: 238,
     itemHeight: 25 + 9, //content + padding
     indicatorTop: 102,

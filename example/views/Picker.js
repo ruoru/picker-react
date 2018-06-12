@@ -123,7 +123,7 @@ class Picker extends Component {
 
                 <GroupPicker
                     data={this.state.group_data}
-                    datamap={{text: 'label'}}
+                    dataKeys={{text: 'label'}}
                     show={this.state.group_show}
                     onOk={selected=>{
                         let value = ''
@@ -140,7 +140,7 @@ class Picker extends Component {
 
                 <CascadePicker
                     data={cnCity}
-                    datamap={{text: 'name', value: 'code', sub: 'sub'}}
+                    dataKeys={{text: 'name', value: 'code', sub: 'sub'}}
                     show={this.state.cascade_show}
                     onOk={selected => {
                         let value = cnCity;

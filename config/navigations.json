@@ -1,0 +1,85 @@
+[
+  {
+    "key": "me",
+    "icontype": "user",
+    "name": "个人中心",
+    "path": "/me"
+  },
+  {
+    "key": "tasks",
+    "icontype": "file-text",
+    "name": "任务列表",
+    "path": "/tasks"
+  },
+  {
+    "key": "review",
+    "icontype": "form",
+    "name": "标注审核",
+    "path": "/review"
+  },
+  {
+    "key": "datacenter",
+    "icontype": "database",
+    "name": "数据中心",
+    "path": "/datacenter",
+    "children": [
+      {
+        "key": "dataset",
+        "name": "数据集管理",
+        "path": "/datacenter/dataset"
+      },
+      {
+        "key": "reviewtasks",
+        "name": "全部任务",
+        "path": "/datacenter/reviewtasks"
+      },
+      {
+        "key": "datalist",
+        "name": "全部语料",
+        "path": "/datacenter/datalist"
+      }
+    ]
+  },
+  {
+    "key": "manageuser",
+    "icontype": "team",
+    "name": "用户管理",
+    "path": "/manageuser",
+    "children": [
+      {
+        "key": "roles",
+        "name": "用户角色",
+        "path": "/roles"
+      },
+      {
+        "key": "users",
+        "name": "用户列表",
+        "path": "/users"
+      }
+    ]
+  },
+  {
+    "key": "settings",
+    "icontype": "setting",
+    "name": "系统设置",
+    "path": "/settings",
+    "children": [
+      {
+        "key": "system",
+        "name": "系统配置",
+        "path": "/settings/system"
+      },
+      {
+        "key": "datatype",
+        "name": "标注分类配置",
+        "path": "/settings/datatype"
+      }
+    ]
+  },
+  {
+    "key": "personal",
+    "icontype": "user-add",
+    "name": "个人设置",
+    "path": "/personal"
+  }
+]

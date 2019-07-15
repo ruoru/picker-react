@@ -15,7 +15,7 @@
     manifest.json provides metadata used when your web app is added to the
     homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
   -->
-  <!-- <link rel="shortcut icon" href="//assert.ruoru.me/favicon.ico"> -->
+  <!-- <link rel="shortcut icon" href="<%= htmlWebpackPlugin.options.publicURL %>/favicon.ico"> -->
   <!-- <link rel="manifest" href="%PUBLIC_URL%/manifest.json"> -->
   <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/antd/2.13.2/antd.min.css" /> -->
 
@@ -23,13 +23,13 @@
   <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
 
   <title>
-    生产环境
+    <%= htmlWebpackPlugin.options.title %>
   </title>
 </head>
 
 <body>
   <div id="root"></div>
-  <script type="text/javascript" async defer src="/main-v1.0.0.js"></script>
+  <script type="text/javascript" async defer src="/<%= htmlWebpackPlugin.files.chunks.main.entry %>"></script>
 </body>
 
 </html>

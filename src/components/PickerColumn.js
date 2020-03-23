@@ -190,7 +190,7 @@ class PickerColumn extends Component {
       >
         <div className="weui-picker__mask" />
         <div className="weui-picker__indicator" />
-        <div className="weui-picker__content" style={styles} ref="content">
+        <div className="weui-picker__content" style={styles}>
           {data.map((item, j) => {
             const itemCls = classNames("weui-picker__item", {
               "weui-picker__item_disabled": item[dataKeys.disable]

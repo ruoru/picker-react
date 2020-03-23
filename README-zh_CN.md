@@ -189,7 +189,7 @@ npm install picker-react --save
 
 ## 示例
 
-[代码](./example/views/Picker.js)
+[代码](./example/Picker/index.js)
 
 ```js
 import React, { Component } from "react";

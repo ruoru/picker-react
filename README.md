@@ -195,7 +195,7 @@ npm install picker-react --save
 
 ## Example Code
 
-[picker demo.js code](./example/views/Picker.js)
+[picker demo.js code](./example/Picker/index.js)
 
 ```js
 import React, { Component } from "react";

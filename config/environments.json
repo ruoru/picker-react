@@ -17,7 +17,7 @@
     "mixpanelToken": "",
     "api": "//47.98.168.193:8080"
   },
-  "test": {
+  "testing": {
     "key": "test",
     "name": "testing",
     "NODE_ENV": "testing",
@@ -27,7 +27,7 @@
     "api": "//0.0.0.0:8080"
   },
   "staging": {
-    "key": "staging",
+    "key": "stag",
     "name": "staging",
     "NODE_ENV": "staging",
     "GATEWAY_ENV": "staging",
@@ -35,7 +35,7 @@
     "mixpanelToken": "",
     "api": "//0.0.0.0:8080"
   },
-  "prod": {
+  "production": {
     "key": "prod",
     "name": "production",
     "NODE_ENV": "production",

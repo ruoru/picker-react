@@ -1,5 +1,8 @@
 import "./weui.min.css";
-import GroupPicker from "./components/GroupPicker";
-import CascadePicker from "./components/CascadePicker";
+import gp from "./components/GroupPicker";
+import cp from "./components/CascadePicker";
 
-export { GroupPicker, CascadePicker };
+export const GroupPicker = gp;
+export const CascadePicker = cp;
+
+export default { GroupPicker, CascadePicker };

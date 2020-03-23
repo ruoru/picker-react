@@ -1,0 +1,10 @@
+# .npmignore 
+build/
+config/
+dist/
+doc/
+examples/
+node_modules/
+
+babel.config.json
+.gitignore

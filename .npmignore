@@ -2,9 +2,13 @@
 build/
 config/
 dist/
-doc/
-examples/
+docs/
+example/
 node_modules/
+public/
 
 babel.config.json
 .gitignore
+
+.DS_Store
+.vscode/

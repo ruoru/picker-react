@@ -1,8 +1,7 @@
 const { resolve } = require("path");
 const webpack = require("webpack");
 const TerserPlugin = require("terser-webpack-plugin");
-const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
-  .BundleAnalyzerPlugin;
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
@@ -45,6 +44,7 @@ module.exports = (env, argv) => {
             options: {
               presets: ["@babel/preset-env", "@babel/preset-react"],
               plugins: [
+                "@babel/plugin-proposal-class-properties",
                 // ["import", { libraryName: "antd", style: "css" }], // `style: true` 会加载 less 文件
                 // [
                 //   "import",

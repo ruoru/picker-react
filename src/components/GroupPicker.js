@@ -1,102 +1,83 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { isEqual } from "lodash";
 import PickerMask from "./PickerMask";
 import PickerColumn from "./PickerColumn";
-import classNames from "../utils/classnames";
-import { isEqual } from "lodash";
-
 class GroupPicker extends Component {
   constructor(props) {
     super(props);
     const { data, defaultSelectIndexs, selectIndexs } = props;
-
     this.state = {
-      selectIndexs:
-        selectIndexs || defaultSelectIndexs || Array(data.length).fill(-1)
+      selectIndexs: selectIndexs || defaultSelectIndexs || Array(data.length).fill(-1),
     };
-
-    this.handleChange = this.handleChange.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
-    //there may think about props.data change
-    const { data, defaultSelectIndexs, selectIndexs } = nextProps;
+    const { selectIndexs } = nextProps;
     if (Array.isArray(selectIndexs) && selectIndexs.length > 0) {
       this.setState({ selectIndexs });
-      return;
     }
-    if (!isEqual(this.props.data, data)) {
-      this.setState({
-        selectIndexs:
-          selectIndexs || defaultSelectIndexs || Array(data.length).fill(-1)
-      });
-    }
+
+    // there may think about props.data change
+    // if (!isEqual(this.props.data, data)) {
+    //   this.setState({
+    //     selectIndexs:
+    //       selectIndexs || defaultSelectIndexs || Array(data.length).fill(-1)
+    //   });
+    // }
   }
 
-  handleChange(item, rowIndex, columnIndex) {
-    const { onChange } = this.props,
-      propsSelectIndexs = this.props.selectIndexs;
-    let { selectIndexs } = this.state;
-
-    if (Array.isArray(propsSelectIndexs) && propsSelectIndexs.length > 0) {
-      selectIndexs = this.props.selectIndexs;
-    } else {
-      selectIndexs[columnIndex] = rowIndex;
-    }
-
+  handleChange = (item, rowIndex, columnIndex) => {
+    const { onChange } = this.props;
+    const { selectIndexs } = this.state;
+    selectIndexs[columnIndex] = rowIndex;
     this.setState({ selectIndexs }, () => {
-      if (onChange) onChange(selectIndexs, rowIndex, columnIndex);
+      if (typeof onChange === "function") {
+        onChange(selectIndexs, rowIndex, columnIndex)
+      };
     });
   }
 
   render() {
     const {
-      data,
-      dataKeys,
-      onChange,
-      show,
-      transparent,
-      lang,
-      onCancel,
-      onOk,
-      onMaskClick
+      className, data, dataKeys, show, transparent, lang, itemHeight, indicatorHeight,
+      onCancel, onOk, onMaskClick,
     } = this.props;
     const { selectIndexs } = this.state;
 
+    if (!show) { return null; }
+
     return (
-      show? (
-        <PickerMask
-          show={show}
-          transparent={transparent}
-          lang={lang}
-          onCancel={e => {
-            if (onCancel) onCancel();
-          }}
-          onOk={e => {
-            if (onOk) onOk(selectIndexs);
-          }}
-          onMaskClick={onMaskClick}
-        >
-          {data.map((column, i) => {
-            return (
-              <PickerColumn
-                key={i}
-                data={column}
-                dataKeys={dataKeys}
-                onChange={this.handleChange}
-                columnIndex={i}
-                defaultIndex={selectIndexs[i]}
-              />
-            );
-          })}
-        </PickerMask>)
-        : ''
-      
+      <PickerMask
+        className={className}
+        show={show}
+        transparent={transparent}
+        lang={lang}
+        onCancel={onCancel}
+        onOk={e => { if (typeof onOk === "function") onOk(selectIndexs, e); }}
+        onMaskClick={onMaskClick}
+      >
+        {
+          data.map((column, i) => (
+            <PickerColumn
+              key={i}
+              data={column}
+              dataKeys={dataKeys}
+              itemHeight={itemHeight}
+              indicatorHeight={indicatorHeight}
+              onChange={this.handleChange}
+              columnIndex={i}
+              defaultIndex={selectIndexs[i]}
+            />
+          ))
+        }
+      </PickerMask>
     );
   }
 }
 
 GroupPicker.propTypes = {
+  className: PropTypes.string,
   data: PropTypes.array.isRequired,
   dataKeys: PropTypes.object,
   defaultSelectIndexs: PropTypes.array,
@@ -107,11 +88,13 @@ GroupPicker.propTypes = {
   lang: PropTypes.object,
   onCancel: PropTypes.func,
   onOk: PropTypes.func,
-  onMaskClick: PropTypes.func
+  onMaskClick: PropTypes.func,
+  itemHeight: PropTypes.number,
+  indicatorHeight: PropTypes.number,
 };
 
 GroupPicker.defaultProps = {
-  data: []
+  data: [],
 };
 
 export default GroupPicker;

@@ -1,36 +1,27 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { isEqual, cloneDeep } from "lodash";
 import PickerMask from "./PickerMask";
 import PickerColumn from "./PickerColumn";
-import classNames from "../utils/classnames";
-import { isEqual } from "lodash";
-
 class CascadePicker extends Component {
   constructor(props) {
     super(props);
-    const { data, dataKeys, defaultSelectIndexs, selectIndexs } = this.props;
-    const { columns, newSelectIndexs } = this.parseData(
-      selectIndexs || defaultSelectIndexs
-    );
+    const { defaultSelectIndexs, selectIndexs } = props;
+    const { columns, newSelectIndexs } = this.parseData(selectIndexs || defaultSelectIndexs);
     this.state = {
       columns,
-      selectIndexs: newSelectIndexs
+      selectIndexs: newSelectIndexs,
     };
-
-    this.parseData = this.parseData.bind(this);
-    this.handleChange = this.handleChange.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
-    const { data, defaultSelectIndexs, selectIndexs } = nextProps;
-    if (!isEqual(this.props.data, data)) {
-      const { columns, newSelectIndexs } = this.parseData(
-        selectIndexs || defaultSelectIndexs,
-        nextProps
-      );
+    const { data, selectIndexs } = nextProps;
+    const { data: oldData } = this.props;
+    if (!isEqual(oldData, data)) {
+      const { columns, newSelectIndexs } = this.parseData(selectIndexs, nextProps);
       this.setState({
         columns,
-        selectIndexs: newSelectIndexs
+        selectIndexs: newSelectIndexs,
       });
     }
     if (Array.isArray(selectIndexs) && selectIndexs.length > 0) {
@@ -38,90 +29,71 @@ class CascadePicker extends Component {
     }
   }
 
-  parseData(selectIndexs = [], props) {
+  parseData = (selectIndexs = [], props) => {
     const { data, dataKeys } = props || this.props;
-    let i = 0,
-      dataItem = JSON.parse(JSON.stringify(data)),
-      columns = [],
-      newSelectIndexs = [];
-
+    let i = 0;
+    let dataItem = cloneDeep(data);
+    const columns = [];
+    const newSelectIndexs = [];
     do {
-      columns.push(dataItem);
       const selectIndex = dataItem[selectIndexs[i]] ? selectIndexs[i] : 0;
+      columns.push(dataItem);
       newSelectIndexs.push(selectIndex);
-
-      dataItem =
-        Array.isArray(dataItem) &&
-        dataItem[selectIndex] &&
-        dataItem[selectIndex][dataKeys.sub];
+      dataItem = Array.isArray(dataItem) && dataItem[selectIndex] && dataItem[selectIndex][dataKeys.sub];
       i++;
     } while (dataItem);
 
     return { columns, newSelectIndexs };
   }
 
-  handleChange(item, rowIndex, columnIndex) {
-    const { onChange } = this.props,
-      propsSelectIndexs = this.props.selectIndexs;
-    let { selectIndexs } = this.state;
-
-    if (Array.isArray(propsSelectIndexs) && propsSelectIndexs.length > 0) {
-      selectIndexs = this.props.selectIndexs;
-    } else {
-      selectIndexs[columnIndex] = rowIndex;
-    }
+  handleChange = (item, rowIndex, columnIndex) => {
+    const { onChange } = this.props;
+    const { selectIndexs } = this.state;
+    selectIndexs[columnIndex] = rowIndex;
     const { columns, newSelectIndexs } = this.parseData(selectIndexs);
     this.setState({ columns, selectIndexs: newSelectIndexs }, () => {
-      if (onChange) onChange(selectIndexs, rowIndex, columnIndex);
+      if (typeof onChange === "function") onChange(selectIndexs, rowIndex, columnIndex);
     });
   }
 
   render() {
-    const {
-      data,
-      dataKeys,
-      onChange,
-      show,
-      transparent,
-      lang,
-      onCancel,
-      onOk,
-      onMaskClick
+    const { className, dataKeys, show, transparent, lang, onCancel,
+      onOk, onMaskClick, itemHeight, indicatorHeight,
     } = this.props;
     const { columns, selectIndexs } = this.state;
 
+    if (!show) { return null; }
+
     return (
-      show? <PickerMask
-        show={show}
-        transparent={transparent}
+      <PickerMask
+        className={className}
+        show={show} transparent={transparent}
         lang={lang}
-        onCancel={e => {
-          if (onCancel) onCancel();
-        }}
-        onOk={e => {
-          if (onOk) onOk(selectIndexs);
-        }}
+        onCancel={onCancel}
+        onOk={e => { if (typeof onOk === "function") onOk(selectIndexs, e); }}
         onMaskClick={onMaskClick}
       >
-        {columns.map((column, i) => {
-          return (
+        {
+          columns.map((item, i) => (
             <PickerColumn
               key={i}
-              data={column}
+              data={item}
               dataKeys={dataKeys}
+              itemHeight={itemHeight}
+              indicatorHeight={indicatorHeight}
               onChange={this.handleChange}
               columnIndex={i}
               defaultIndex={selectIndexs[i]}
             />
-          );
-        })}
+          ))
+        }
       </PickerMask>
-      : ''
     );
   }
 }
 
 CascadePicker.propTypes = {
+  className: PropTypes.string,
   data: PropTypes.array.isRequired,
   dataKeys: PropTypes.object,
   defaultSelectIndexs: PropTypes.array,
@@ -132,7 +104,9 @@ CascadePicker.propTypes = {
   lang: PropTypes.object,
   onCancel: PropTypes.func,
   onOk: PropTypes.func,
-  onMaskClick: PropTypes.func
+  onMaskClick: PropTypes.func,
+  itemHeight: PropTypes.number,
+  indicatorHeight: PropTypes.number,
 };
 
 CascadePicker.defaultProps = {
@@ -141,8 +115,9 @@ CascadePicker.defaultProps = {
     text: "text",
     value: "value",
     disable: "disable",
-    sub: "sub"
-  }
+    sub: "sub",
+  },
+  defaultSelectIndexs: [],
 };
 
 export default CascadePicker;

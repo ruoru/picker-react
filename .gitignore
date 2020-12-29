@@ -5,6 +5,7 @@ node_modules/
 
 # testing
 coverage/
+__snapshots__/
 
 # production
 dist/

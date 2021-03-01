@@ -9,15 +9,21 @@
 
 group and cascade pickers base on WEUI picker.
 
-[<img src="http://p42sgsc8q.bkt.clouddn.com/country-flags/svg/cn.svg" height="20" /> 简体中文文档](README-zh_CN.md)
+[<img src="https://lipis.github.io/flag-icon-css/flags/4x3/cn.svg" height="14" /> 简体中文文档](README-zh_CN.md)
+
+
 
 ## Demo link
 
 https://ruoru.github.io/picker-react
 
+
+
 ## Support environment
 
 * Mobel browser.
+
+
 
 ## Applicable scene
 
@@ -27,15 +33,21 @@ https://ruoru.github.io/picker-react
 4.  Requirements of the word length in a certain range, too long can not be displayed completely;
 5.  Interface data format needs to be strictly in accordance with the provisions of the format;
 
+
+
 ## Remaining problem
 
 1.  if the first one is disable, if chose another disable item in same column, it will jump to the first one disable;
 
+
+
 ## Interface design
+
+
 
 ### GroupPicker & CascadePicker
 
-GroupPicker & CascadePicker has the same interface, but the `data` structure is different.
+GroupPicker & CascadePicker has the same interface, but the `data` `onOk` structure is different.
 
 | property name          | description                                                                         | type                                              | default                                                           |
 | ---------------------- | ----------------------------------------------------------------------------------- | ------------------------------------------------- | ----------------------------------------------------------------- |
@@ -46,10 +58,12 @@ GroupPicker & CascadePicker has the same interface, but the `data` structure is 
 | onChange \*            | Callback method, each time you change the selected value will run of the method.    | Function (selectIndexs, rowIndex, columnIndex)    | -                                                                 |
 | show \*                | Show or Hide the component.                                                         | Bool                                              | false                                                             |
 | transparent            | Is the gray background transparent or not.                                          | Bool                                              | false                                                             |
+| itemHeight | Height of each option. | Number | 34 |
+| indicatorHeight | Height of the selected column. | Number | 34 |
 | lang                   | Text of Component `Cancel button` and `OK button`.                                  | Object                                            | { cancelBtn: 'Cancel', okBtn: 'Ok' }                              |
-| onCancel \*            | Callback method, click the `Cancel button` will run the method.                     | Function                                          | -                                                                 |
-| onOk \*                | Callback method, click the `OK button` will run the method.                         | Function (selectIndexs)                           | -                                                                 |
-| onMaskClick            | Callback method, click on the gray background will run the method.                  | Function                                          | -                                                                 |
+| onCancel \*            | Callback method, click the `Cancel button` will run the method.                     | Function(event)                                   | -                                                                 |
+| onOk \*                | Callback method, click the `OK button` will run the method.                         | GroupPicker: Function(selectIndexs, selectItems, event)<br />CascadePicker:Function(selectIndexs, lastSelectItem, event) | -                                                                 |
+| onMaskClick            | Callback method, click on the gray background will run the method.                  | Function(event)                                   | -                                                                 |
 
 Here the `data` to emphasize, GroupPicker data format is:
 
@@ -187,11 +201,15 @@ CascadePicker data format is:
 ];
 ```
 
+
+
 ## Install
 
 ```bash
 npm install picker-react --save
 ```
+
+
 
 ## Example Code
 
@@ -362,6 +380,8 @@ class Picker extends Component {
 
 export default Picker;
 ```
+
+
 
 ## Local development
 

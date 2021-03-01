@@ -52,12 +52,14 @@ class CascadePicker extends Component {
     selectIndexs[columnIndex] = rowIndex;
     const { columns, newSelectIndexs } = this.parseData(selectIndexs);
     this.setState({ columns, selectIndexs: newSelectIndexs }, () => {
-      if (typeof onChange === "function") onChange(selectIndexs, rowIndex, columnIndex);
+      if (typeof onChange === "function") {
+        onChange(selectIndexs, rowIndex, columnIndex);
+      }
     });
   }
 
   render() {
-    const { className, dataKeys, show, transparent, lang, onCancel,
+    const { className, data, dataKeys, show, transparent, lang, onCancel,
       onOk, onMaskClick, itemHeight, indicatorHeight,
     } = this.props;
     const { columns, selectIndexs } = this.state;
@@ -70,7 +72,16 @@ class CascadePicker extends Component {
         show={show} transparent={transparent}
         lang={lang}
         onCancel={onCancel}
-        onOk={e => { if (typeof onOk === "function") onOk(selectIndexs, e); }}
+        onOk={e => {
+          if (typeof onOk === "function") {
+            let value = data;
+            selectIndexs.forEach((s, i) => {
+              const subs = value[s][dataKeys.sub];
+              value = Array.isArray(subs) && i !== selectIndexs.length - 1 ? subs : value[s];
+            });
+            onOk(selectIndexs, value, e);
+          }
+        }}
         onMaskClick={onMaskClick}
       >
         {

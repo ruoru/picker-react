@@ -6,7 +6,7 @@ import PickerColumn from "./PickerColumn";
 class GroupPicker extends Component {
   constructor(props) {
     super(props);
-    const { data, defaultSelectIndexs, selectIndexs } = props;
+    const { data, selectIndexs, defaultSelectIndexs } = props;
     this.state = {
       selectIndexs: selectIndexs || defaultSelectIndexs || Array(data.length).fill(-1),
     };
@@ -54,7 +54,11 @@ class GroupPicker extends Component {
         transparent={transparent}
         lang={lang}
         onCancel={onCancel}
-        onOk={e => { if (typeof onOk === "function") onOk(selectIndexs, e); }}
+        onOk={e => {
+          if (typeof onOk === "function") {
+            onOk(selectIndexs, selectIndexs.map((s, i) => data[i][s]), e);
+          }
+        }}
         onMaskClick={onMaskClick}
       >
         {

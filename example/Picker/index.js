@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./index.css";
 import cnCity from "./cnCity";
-import { GroupPicker, CascadePicker } from "../../src";
+import { GroupPicker, CascadePicker, DatePicker } from "../../src";
 
 class Picker extends Component {
   constructor(props) {
@@ -84,7 +84,11 @@ class Picker extends Component {
       ],
 
       cascade_show: false,
-      cascade_value: ""
+      cascade_value: "",
+      cascade_data: cnCity,
+
+      date_show: false,
+      date_value: "",
     };
   }
 
@@ -114,7 +118,20 @@ class Picker extends Component {
                 e.preventDefault();
                 this.setState({ cascade_show: true });
               }}
-              placeholder="Chose Your cascade value"
+              placeholder="Pick cascade value"
+              readOnly={true}
+            />
+          </li>
+          <li>
+            <span>DatePicker</span>
+            <input
+              type="text"
+              value={this.state.date_value}
+              onClick={e => {
+                e.preventDefault();
+                this.setState({ date_show: true });
+              }}
+              placeholder="Pick date value"
               readOnly={true}
             />
           </li>
@@ -124,10 +141,10 @@ class Picker extends Component {
           data={this.state.group_data}
           dataKeys={{ text: "label" }}
           show={this.state.group_show}
-          onOk={selected => {
+          onOk={(selectIndexs, selectItems, e) => {
             let value = "";
-            selected.forEach((s, i) => {
-              value += this.state.group_data[i][s].value;
+            selectItems.forEach((item, i) => {
+              value += item.value;
             });
             this.setState({
               group_value: value,
@@ -139,25 +156,26 @@ class Picker extends Component {
         />
 
         <CascadePicker
-          data={cnCity}
+          data={this.state.cascade_data}
           dataKeys={{ text: "name", value: "code", sub: "sub" }}
           show={this.state.cascade_show}
-          onOk={selected => {
-            let value = cnCity;
-            selected.forEach((s, i) => {
-              if (i === selected.length - 1) {
-                value = value[s].code;
-              } else {
-                value = value[s].sub;
-              }
-            });
+          onOk={(selectIndexs, lastItem, e) => {
             this.setState({
-              cascade_value: value,
+              cascade_value: lastItem.code,
               cascade_show: false
             });
           }}
           onCancel={e => this.setState({ cascade_show: false })}
           onMaskClick={e => this.setState({ cascade_show: false })}
+        />
+
+        <DatePicker
+          show={this.state.date_show}
+          onOk={(value, item, e) => {
+            console.log(value, item, e);
+          }}
+          onCancel={e => this.setState({ date_show: false })}
+          onMaskClick={e => this.setState({ date_show: false })}
         />
       </div>
     );

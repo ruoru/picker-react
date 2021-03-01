@@ -2,7 +2,7 @@
 
 基于 WEUI 实现的组选择器，级联选择器。
 
-[<img src="http://p42sgsc8q.bkt.clouddn.com/country-flags/svg/uk.svg" height="20" /> README in English](README.md)
+[<img src="https://lipis.github.io/flag-icon-css/flags/4x3/gb.svg" height="14" /> README in English](README.md)
 
 ## 例子链接
 

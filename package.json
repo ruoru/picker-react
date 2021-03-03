@@ -38,7 +38,6 @@
     "react-dom": ">=16.0.0"
   },
   "dependencies": {
-    "@babel/polyfill": "^7.8.7",
     "date-fns": "^2.17.0",
     "lodash": "^4.17.20",
     "prop-types": "^15.7.2",
@@ -55,10 +54,10 @@
     "babel-loader": "^8.1.0",
     "css-loader": "^2.1.1",
     "file-loader": "^4.3.0",
-    "html-webpack-plugin": "^3.2.0",
+    "html-webpack-plugin": "^5.2.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^26.6.3",
-    "node-sass": "^4.13.1",
+    "node-sass": "^4.14.1",
     "optimize-css-assets-webpack-plugin": "^5.0.3",
     "postcss-loader": "^3.0.0",
     "react-test-renderer": "^17.0.1",
@@ -66,7 +65,7 @@
     "style-loader": "^0.23.1",
     "terser-webpack-plugin": "^1.4.3",
     "uglifyjs-webpack-plugin": "^2.2.0",
-    "webpack": "^4.42.0",
+    "webpack": "^5.24.2",
     "webpack-bundle-analyzer": "^3.6.1",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.11.0"

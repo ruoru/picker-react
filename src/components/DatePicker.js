@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
-import { format, endOfMonth, isSameYear, isSameMonth, isSameDay, isBefore, isAfter } from 'date-fns';
+import { endOfMonth, isSameDay } from 'date-fns';
 import { typeIs, isNumber } from '../utils/type';
 import CascadePicker from './CascadePicker';
 
@@ -76,6 +76,7 @@ class DatePicker extends Component {
 
     return { startDate, endDate, selectDate };
   }
+
   getDateOptions = (startDate, endDate, selectDate) => {
     const monthDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
     const startYear = startDate.getFullYear();
@@ -180,16 +181,10 @@ class DatePicker extends Component {
     for (let i = 0; i < data.length; i++) { const item = data[i]; selectIndexs.push(i); if (Array.isArray(item.sub)) { getSelectIndexsByData(selectValue, data, selectIndexs) } else if (item.value === selectValue) { return selectIndexs; } }
   }
 
-  onOk = (selectIndexs, e) => {
+  onOk = (selectIndexs, lastSelectItem, e) => {
     const { onOk } = this.props;
-    let { data: item } = this.state;
     if (typeIs(onOk) === 'function') {
-      selectIndexs.forEach((s, i) => {
-        const subs = item[s].sub;
-        item = Array.isArray(subs) && i !== selectIndexs.length - 1 ? subs : item[s];
-      });
-
-      onOk(item.value, item, e);
+      onOk(lastSelectItem.value, lastSelectItem, e);
     }
   }
 
@@ -207,5 +202,13 @@ class DatePicker extends Component {
   }
 }
 
+DatePicker.propTypes = {
+  startDate: PropTypes.object,
+  endDate: PropTypes.object,
+  selectValue: PropTypes.object,
+  defaultSelectValue: PropTypes.object,
+};
 
-DatePicker.propTypes = { startDate: PropTypes.object, endDate: PropTypes.object, selectValue: PropTypes.object, defaultSelectValue: PropTypes.object, }; DatePicker.defaultProps = {}; export default DatePicker; /* eslint-disable */
+DatePicker.defaultProps = {};
+
+export default DatePicker;

@@ -1,5 +1,6 @@
-import React, { Component } from "react";
 import "./index.css";
+import React, { Component } from "react";
+import { format } from 'date-fns';
 import cnCity from "./cnCity";
 import { GroupPicker, CascadePicker, DatePicker } from "../../src";
 
@@ -172,7 +173,7 @@ class Picker extends Component {
         <DatePicker
           show={this.state.date_show}
           onOk={(value, item, e) => {
-            console.log(value, item, e);
+            this.setState({ date_show: false, date_value: format(value, 'yyyy-MM-dd') });
           }}
           onCancel={e => this.setState({ date_show: false })}
           onMaskClick={e => this.setState({ date_show: false })}
@@ -181,4 +182,5 @@ class Picker extends Component {
     );
   }
 }
+
 export default Picker;

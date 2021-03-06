@@ -16,7 +16,6 @@ class DatePicker extends Component {
     super(props);
     const { startDate, endDate, selectValue, defaultSelectValue } = props;
     const { dateOptions, selectDateIndexs } = this.getInitData(startDate, endDate, selectValue || defaultSelectValue);
-
     this.state = {
       data: dateOptions,
       selectIndexs: selectDateIndexs,
@@ -33,7 +32,7 @@ class DatePicker extends Component {
       nextState.data = dateOptions;
       nextState.selectIndexs = selectDateIndexs;
     } else if (!isSameDate(selectValue || defaultSelectValue, oldSelectValue)) {
-      nextState.selectIndexs = this.getSelectIndexsByData(nextState.data || this.state.data);
+      nextState.selectIndexs = this.getSelectIndexsByValue(selectValue, nextState.data || this.state.data);
     }
 
     if (Object.keys(nextState).length > 0) {
@@ -126,59 +125,28 @@ class DatePicker extends Component {
         value: y,
         sub: mOptions,
       });
+    }
 
-      if (typeIs(selectDateIndexs) === 'date') {
-        selectDateIndexs = [0, 0, 0];
-      }
+    if (typeIs(selectDateIndexs) === 'date') {
+      selectDateIndexs = [0, 0, 0];
     }
 
     return { dateOptions, selectDateIndexs };
   }
 
-  getSelectIndexsByData = (selectValue, data, selectIndexs = []) => {
-    [{
-      text: '123123',
-      value: '213',
-      sub: [{
-        text: '123123',
-        value: '187216',
-      }, {
-        text: '123123',
-        value: '1827387612',
-        sub: [{
-          text: '123123',
-          value: '1',
-        }, {
-          text: '123123',
-          value: '2',
-        }]
-      }]
-    }, {
-      text: '123123',
-      value: '213',
-      sub: [{
-        text: '123123',
-        value: '3',
-        sub: [{
-          text: '123123',
-          value: '3',
-        }, {
-          text: '123123',
-          value: '4',
-          sub: [{
-            text: '123123',
-            value: '3',
-          }, {
-            text: '123123',
-            value: '11111111',
-          }]
-        }]
-      }, {
-        text: '123123',
-        value: '4',
-      }]
-    }]
-    for (let i = 0; i < data.length; i++) { const item = data[i]; selectIndexs.push(i); if (Array.isArray(item.sub)) { getSelectIndexsByData(selectValue, data, selectIndexs) } else if (item.value === selectValue) { return selectIndexs; } }
+  getSelectIndexsByValue = (selectValue, data, selectIndexs = []) => {
+    for (let i = 0; i < data.length; i++) {
+      const item = data[i];
+      if (Array.isArray(item.sub) && item.sub.length > 0) {
+        const findIndexs = this.getSelectIndexsByValue(selectValue, item.sub, selectIndexs.concat(i));
+        if (Array.isArray(findIndexs)) {
+          return findIndexs;
+        }
+      } else if (isSameDate(item.value, selectValue)) {
+        selectIndexs.push(i);
+        return selectIndexs;
+      }
+    }
   }
 
   onOk = (selectIndexs, lastSelectItem, e) => {
@@ -190,12 +158,14 @@ class DatePicker extends Component {
 
   render() {
     const { data } = this.state;
+    const { selectIndexs } = this.state;
     return (
       <CascadePicker
         itemHeight={45}
         indicatorHeight={45}
         {...this.props}
         data={data}
+        selectIndexs={selectIndexs}
         onOk={this.onOk}
       />
     );

@@ -2,7 +2,6 @@ const { resolve } = require("path");
 const webpack = require("webpack");
 const TerserPlugin = require("terser-webpack-plugin");
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const OS = require("os");
@@ -10,10 +9,11 @@ const environments = require("../config/environments");
 const version = require("../package").version;
 
 module.exports = (env, argv) => {
-  console.log(env, argv)
-  const environment = environments[(env && env.env) || "prod"];
+  const envValue = env && env.env || "production";
+  const environment = environments[envValue];
 
   return {
+    mode: envValue,
     entry: {
       main: "./example/main.js"
     },
@@ -45,12 +45,6 @@ module.exports = (env, argv) => {
               presets: ["@babel/preset-env", "@babel/preset-react"],
               plugins: [
                 "@babel/plugin-proposal-class-properties",
-                // ["import", { libraryName: "antd", style: "css" }], // `style: true` 会加载 less 文件
-                // [
-                //   "import",
-                //   { libraryName: "ant-design-pro", style: "css" },
-                //   "antd-pro"
-                // ] // `style: true` 会加载 less 文件
               ]
             }
           }
@@ -116,37 +110,11 @@ module.exports = (env, argv) => {
 
     optimization: {
       minimizer: [
-        new UglifyJsPlugin({
-          uglifyOptions: {
-            warnings: false,
-            parse: {},
-            compress: {},
-            mangle: true, // Note `mangle.properties` is `false` by default.
-            output: null,
-            toplevel: false,
-            nameCache: null,
-            ie8: false,
-            keep_fnames: false,
-          },
+        new TerserPlugin({
+          test: /\.js(\?.*)?$/i,
+          parallel: true, // 启用/禁用多进程并发运行功能。
         }),
-        new OptimizeCSSAssetsPlugin({})
-    //     // new TerserPlugin({
-    //     //   terserOptions: {
-    //     //     ecma: undefined,
-    //     //     warnings: false,
-    //     //     parse: {},
-    //     //     compress: {},
-    //     //     mangle: true, // Note `mangle.properties` is `false` by default.
-    //     //     module: false,
-    //     //     output: null,
-    //     //     toplevel: false,
-    //     //     nameCache: null,
-    //     //     ie8: true,
-    //     //     keep_classnames: undefined,
-    //     //     keep_fnames: false,
-    //     //     safari10: false
-    //     //   }
-    //     // })
+        new OptimizeCSSAssetsPlugin({}),
       ]
     },
 

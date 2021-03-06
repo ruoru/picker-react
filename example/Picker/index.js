@@ -89,7 +89,7 @@ class Picker extends Component {
       cascade_data: cnCity,
 
       date_show: false,
-      date_value: "",
+      date_value: new Date(),
     };
   }
 
@@ -127,7 +127,7 @@ class Picker extends Component {
             <span>DatePicker</span>
             <input
               type="text"
-              value={this.state.date_value}
+              value={format(this.state.date_value, 'yyyy-MM-dd')}
               onClick={e => {
                 e.preventDefault();
                 this.setState({ date_show: true });
@@ -163,7 +163,7 @@ class Picker extends Component {
           onOk={(selectIndexs, lastItem, e) => {
             this.setState({
               cascade_value: lastItem.code,
-              cascade_show: false
+              cascade_show: false,
             });
           }}
           onCancel={e => this.setState({ cascade_show: false })}
@@ -173,8 +173,9 @@ class Picker extends Component {
         <DatePicker
           show={this.state.date_show}
           onOk={(value, item, e) => {
-            this.setState({ date_show: false, date_value: format(value, 'yyyy-MM-dd') });
+            this.setState({ date_show: false, date_value: value });
           }}
+          selectValue={new Date(this.state.date_value)}
           onCancel={e => this.setState({ date_show: false })}
           onMaskClick={e => this.setState({ date_show: false })}
         />
